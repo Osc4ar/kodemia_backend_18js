@@ -4,9 +4,9 @@ function construir(muro) {
 
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      muro.contruido = "✅";
+      muro.construido = "❌";
 
-      if (muro.contruido !== "✅") {
+      if (muro.construido !== "✅") {
         reject(new Error("No se pudo construir el muro"));
       }
 
@@ -52,7 +52,7 @@ function pintar(muro) {
 }
 
 const muro = {
-  contruido: "❌",
+  construido: "❌",
   aplanado: "❌",
   pintado: "❌",
 };
@@ -73,13 +73,21 @@ const muro = {
 //     console.log("Muro en tercer then:", muroPintado);
 
 //     console.log("Terminamos el muro!");
+//   })
+//   .catch((error) => {
+//     console.log("Un error!", error);
 //   });
 
 async function ordernarConstruccion() {
-  await construir(muro);
-  await aplanar(muro);
-  await pintar(muro);
+  try {
+    await construir(muro);
+    await aplanar(muro);
+    await pintar(muro);
 
-  console.log("Se terminó el muro!", muro);
+    console.log("Se terminó el muro!", muro);
+  } catch (error) {
+    console.error("En el catch, hay otro error!", error);
+  }
+  console.log("El programa sigue vivo!");
 }
 ordernarConstruccion();
