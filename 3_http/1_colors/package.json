@@ -1,0 +1,16 @@
+{
+  "name": "1_colors",
+  "version": "0.0.1",
+  "description": "Example of how to use npm",
+  "main": "index.js",
+  "scripts": {
+    "start": "./un_script.sh",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "kodemia": "echo \"Hola Koders!\" && ls -la"
+  },
+  "author": "Oscar Castillo",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0"
+  }
+}
