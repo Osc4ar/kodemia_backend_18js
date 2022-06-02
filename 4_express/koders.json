@@ -1,11 +1,6 @@
 {
   "koders": [
     {
-      "nombre": "Aaron",
-      "edad": 23,
-      "genero": "masculino"
-    },
-    {
       "nombre": "Danny",
       "edad": 15,
       "genero": "masculino"
@@ -13,11 +8,6 @@
     {
       "nombre": "Nestor",
       "edad": 16,
-      "genero": "masculino"
-    },
-    {
-      "nombre": "Jose",
-      "edad": 30,
       "genero": "masculino"
     },
     {

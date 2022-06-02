@@ -74,6 +74,32 @@ server.patch("/koders/:nombre", async (req, res) => {
   res.json(koders);
 });
 
+server.delete("/koders/:nombre", async (req, res) => {
+  // Guardamos el nombre del Koder a Cambiar
+  const nombre = req.params.nombre;
+
+  // Cargar Koders
+  const archivo = await fs.readFile("koders.json", "utf8"); // el archivo es un String
+  const objeto = JSON.parse(archivo); // convierte un string a un objeto
+  const koders = objeto.koders; // accedemos solo a los koders que estan en un arreglo
+
+  // Voy a eliminar al Koder que se llame como la constante nombre
+  const newKoders = koders.filter((koder) => koder.nombre !== nombre);
+  console.log(newKoders);
+
+  const newObject = {
+    koders: newKoders,
+  };
+
+  // Guardar cambios
+  const nuevoArchivo = JSON.stringify(newObject, null, 2); // Convertimos el objeto a un String nuevo
+  await fs.writeFile("koders.json", nuevoArchivo, "utf8");
+
+  // Enviamos respuesta
+  res.status(200); // Estado de creado
+  res.json(newKoders);
+});
+
 server.get("/koder", (req, res) => {
   const respuesta = {
     mensaje: "Aqui estan todos los koders",
