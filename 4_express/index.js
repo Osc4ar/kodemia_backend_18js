@@ -56,23 +56,22 @@ server.patch("/koders/:nombre", async (req, res) => {
   const koders = objeto.koders; // accedemos solo a los koders que estan en un arreglo
 
   // TODO: Buscar y actualizar al Koder cuyo koder.nombre sea igual a nombre
-  const newKoders = koders.map((oldKoder) => {
+  for (let i = 0; i < koders.length; i++) {
+    const oldKoder = koders[i];
+
     if (oldKoder.nombre === nombre) {
-      return newKoder; // nuevo valores del Koder
+      oldKoder.edad = newKoder.edad;
+      oldKoder.genero = newKoder.genero;
     }
-    return oldKoder;
-  });
-  const newObject = {
-    koders: newKoders,
-  };
+  }
 
   // Guardar cambios
-  const nuevoArchivo = JSON.stringify(newObject, null, 2); // Convertimos el objeto a un String nuevo
+  const nuevoArchivo = JSON.stringify(objeto, null, 2); // Convertimos el objeto a un String nuevo
   await fs.writeFile("koders.json", nuevoArchivo, "utf8");
 
   // Enviamos respuesta
   res.status(200); // Estado de creado
-  res.json(newKoders);
+  res.json(koders);
 });
 
 server.get("/koder", (req, res) => {
