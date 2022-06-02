@@ -42,6 +42,39 @@ server.post("/koders", async (req, res) => {
   res.json(koders);
 });
 
+server.patch("/koders/:nombre", async (req, res) => {
+  // Guardamos el nombre del Koder a Cambiar
+  const nombre = req.params.nombre;
+
+  // Guardamos el Koder en una constante
+  console.log("body:", req.body);
+  const newKoder = req.body;
+
+  // Cargar Koders
+  const archivo = await fs.readFile("koders.json", "utf8"); // el archivo es un String
+  const objeto = JSON.parse(archivo); // convierte un string a un objeto
+  const koders = objeto.koders; // accedemos solo a los koders que estan en un arreglo
+
+  // TODO: Buscar y actualizar al Koder cuyo koder.nombre sea igual a nombre
+  const newKoders = koders.map((oldKoder) => {
+    if (oldKoder.nombre === nombre) {
+      return newKoder; // nuevo valores del Koder
+    }
+    return oldKoder;
+  });
+  const newObject = {
+    koders: newKoders,
+  };
+
+  // Guardar cambios
+  const nuevoArchivo = JSON.stringify(newObject, null, 2); // Convertimos el objeto a un String nuevo
+  await fs.writeFile("koders.json", nuevoArchivo, "utf8");
+
+  // Enviamos respuesta
+  res.status(200); // Estado de creado
+  res.json(newKoders);
+});
+
 server.get("/koder", (req, res) => {
   const respuesta = {
     mensaje: "Aqui estan todos los koders",
