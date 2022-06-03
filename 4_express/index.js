@@ -28,8 +28,7 @@ server.post("/koders", async (req, res) => {
   koders.push(koder);
 
   // Guardar cambios
-  const nuevoArchivo = JSON.stringify({ koders }, null, 2); // Convertimos el objeto a un String nuevo
-  await fs.writeFile("koders.json", nuevoArchivo, "utf8");
+  await writeKoders({ koders });
 
   // Enviamos respuesta
   res.status(201); // Estado de creado
@@ -58,8 +57,7 @@ server.patch("/koders/:nombre", async (req, res) => {
   }
 
   // Guardar cambios, envolviendo el arreglo koders en un objeto
-  const nuevoArchivo = JSON.stringify({ koders }, null, 2); // Convertimos el objeto a un String nuevo
-  await fs.writeFile("koders.json", nuevoArchivo, "utf8");
+  await writeKoders({ koders });
 
   // Enviamos respuesta
   res.status(200); // Estado de creado
@@ -82,8 +80,7 @@ server.delete("/koders/:nombre", async (req, res) => {
   };
 
   // Guardar cambios
-  const nuevoArchivo = JSON.stringify(newObject, null, 2); // Convertimos el objeto a un String nuevo
-  await fs.writeFile("koders.json", nuevoArchivo, "utf8");
+  await writeKoders(newObject);
 
   // Enviamos respuesta
   res.status(200); // Estado de creado
@@ -124,4 +121,9 @@ async function readKoders() {
   const koders = objeto.koders; // accedemos solo a los koders que estan en un arreglo
 
   return koders;
+}
+
+async function writeKoders(newObject) {
+  const nuevoArchivo = JSON.stringify(newObject, null, 2); // Convertimos el objeto a un String nuevo
+  await fs.writeFile("koders.json", nuevoArchivo, "utf8");
 }
