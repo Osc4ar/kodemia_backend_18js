@@ -11,11 +11,7 @@ server.get("/", (request, response) => {
 });
 
 server.get("/koders", async (req, res) => {
-  const archivo = await fs.readFile("koders.json", "utf8"); // el archivo es un String
-  console.log(archivo);
-  const objeto = JSON.parse(archivo); // convierte un string a un objeto
-  console.log(objeto);
-  const koders = objeto.koders; // accedemos solo a los koders que estan en un arreglo
+  const koders = await readKoders(); // accedemos solo a los koders que estan en un arreglo
 
   res.json(koders);
 });
@@ -26,15 +22,13 @@ server.post("/koders", async (req, res) => {
   const koder = req.body;
 
   // Cargar Koders
-  const archivo = await fs.readFile("koders.json", "utf8"); // el archivo es un String
-  const objeto = JSON.parse(archivo); // convierte un string a un objeto
-  const koders = objeto.koders; // accedemos solo a los koders que estan en un arreglo
+  const koders = await readKoders(); // accedemos solo a los koders que estan en un arreglo
 
   // Agregar un nuevo Koder
   koders.push(koder);
 
   // Guardar cambios
-  const nuevoArchivo = JSON.stringify(objeto, null, 2); // Convertimos el objeto a un String nuevo
+  const nuevoArchivo = JSON.stringify({ koders }, null, 2); // Convertimos el objeto a un String nuevo
   await fs.writeFile("koders.json", nuevoArchivo, "utf8");
 
   // Enviamos respuesta
@@ -51,9 +45,7 @@ server.patch("/koders/:nombre", async (req, res) => {
   const newKoder = req.body;
 
   // Cargar Koders
-  const archivo = await fs.readFile("koders.json", "utf8"); // el archivo es un String
-  const objeto = JSON.parse(archivo); // convierte un string a un objeto
-  const koders = objeto.koders; // accedemos solo a los koders que estan en un arreglo
+  const koders = await readKoders();
 
   // TODO: Buscar y actualizar al Koder cuyo koder.nombre sea igual a nombre
   for (let i = 0; i < koders.length; i++) {
@@ -65,8 +57,8 @@ server.patch("/koders/:nombre", async (req, res) => {
     }
   }
 
-  // Guardar cambios
-  const nuevoArchivo = JSON.stringify(objeto, null, 2); // Convertimos el objeto a un String nuevo
+  // Guardar cambios, envolviendo el arreglo koders en un objeto
+  const nuevoArchivo = JSON.stringify({ koders }, null, 2); // Convertimos el objeto a un String nuevo
   await fs.writeFile("koders.json", nuevoArchivo, "utf8");
 
   // Enviamos respuesta
@@ -79,9 +71,7 @@ server.delete("/koders/:nombre", async (req, res) => {
   const nombre = req.params.nombre;
 
   // Cargar Koders
-  const archivo = await fs.readFile("koders.json", "utf8"); // el archivo es un String
-  const objeto = JSON.parse(archivo); // convierte un string a un objeto
-  const koders = objeto.koders; // accedemos solo a los koders que estan en un arreglo
+  const koders = await readKoders();
 
   // Voy a eliminar al Koder que se llame como la constante nombre
   const newKoders = koders.filter((koder) => koder.nombre !== nombre);
@@ -127,3 +117,11 @@ server.put("/koder", (req, res) => {
 server.listen(8000, () => {
   console.log("Servidor ejecutandose");
 });
+
+async function readKoders() {
+  const archivo = await fs.readFile("koders.json", "utf8"); // el archivo es un String
+  const objeto = JSON.parse(archivo); // convierte un string a un objeto
+  const koders = objeto.koders; // accedemos solo a los koders que estan en un arreglo
+
+  return koders;
+}
