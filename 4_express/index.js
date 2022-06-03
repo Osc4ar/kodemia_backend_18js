@@ -17,7 +17,24 @@ server.get("/", (request, response) => {
 server.get("/koders", async (req, res) => {
   const koders = await readKoders(); // accedemos solo a los koders que estan en un arreglo
 
-  res.json(koders);
+  const edad = Number(req.query.edad);
+  const count = Number(req.query.count);
+
+  let respuesta = koders;
+  console.log("Respuesta inicial:", respuesta);
+  if (!Number.isNaN(edad)) {
+    console.log("La edad del parametro es:", edad);
+    respuesta = koders.filter((koder) => koder.edad === edad); // todos los Koders, que tengan la edad buscada
+    console.log("La nueva respuesta es:", respuesta);
+  }
+
+  if (!Number.isNaN(count)) {
+    console.log("El parametro count es:", count);
+    respuesta = respuesta.slice(0, count);
+    console.log("La nueva respuesta es:", respuesta);
+  }
+
+  res.json(respuesta);
 });
 
 server.post("/koders", async (req, res) => {
