@@ -1,6 +1,10 @@
 const express = require("express");
 const fs = require("fs/promises");
 
+const PORT = 8000;
+const FILENAME = "koders.json";
+const ENCODING = "utf8";
+
 const server = express();
 
 // middleware para convertir request a JSON
@@ -111,12 +115,12 @@ server.put("/koder", (req, res) => {
   res.json(respuesta);
 });
 
-server.listen(8000, () => {
+server.listen(PORT, () => {
   console.log("Servidor ejecutandose");
 });
 
 async function readKoders() {
-  const archivo = await fs.readFile("koders.json", "utf8"); // el archivo es un String
+  const archivo = await fs.readFile(FILENAME, ENCODING); // el archivo es un String
   const objeto = JSON.parse(archivo); // convierte un string a un objeto
   const koders = objeto.koders; // accedemos solo a los koders que estan en un arreglo
 
@@ -125,5 +129,5 @@ async function readKoders() {
 
 async function writeKoders(newObject) {
   const nuevoArchivo = JSON.stringify(newObject, null, 2); // Convertimos el objeto a un String nuevo
-  await fs.writeFile("koders.json", nuevoArchivo, "utf8");
+  await fs.writeFile(FILENAME, nuevoArchivo, ENCODING);
 }
