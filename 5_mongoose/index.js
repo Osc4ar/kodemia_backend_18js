@@ -27,6 +27,12 @@ mongoose
     // });
     // await Koder.create(newKoder);
     // console.log("Registro creado");
+
+    const query = {
+      $or: [{ edad: { $lt: 30 } }, { nombre: "Irvin" }],
+    };
+    const koders = await Koder.find(query);
+    console.log(koders);
   })
   .catch((error) => {
     console.error("No nos conectamos a la Base de Datos");
