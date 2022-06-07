@@ -1,0 +1,32 @@
+[
+  {
+    "nombre": "Chucho",
+    "edad": 23,
+    "genero": "masculino"
+  },
+  {
+    "nombre": "Alan",
+    "edad": 33,
+    "genero": "masculino"
+  },
+  {
+    "nombre": "Aaron",
+    "edad": 22,
+    "genero": "masculino"
+  },
+  {
+    "nombre": "Nestor",
+    "edad": 22,
+    "genero": "masculino"
+  },
+  {
+    "nombre": "Irvin",
+    "edad": 33,
+    "genero": "masculino"
+  },
+  {
+    "nombre": "Yusef",
+    "edad": 22,
+    "genero": "masculino"
+  }
+]
