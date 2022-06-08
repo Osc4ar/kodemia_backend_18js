@@ -18,11 +18,43 @@ const URL = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retry
 
 const app = express();
 
+function crearMiddlware() {
+  console.log("creando middleware");
+  return (req, res, next) => {
+    console.log("Middleware fabricado");
+    console.log("Method:", req.method);
+    console.log("URL:", req.originalUrl);
+
+    next();
+  };
+}
+
+app.use(express.json());
+app.use((req, res, next) => {
+  console.log("Hola desde este otro middleware");
+
+  next();
+});
+app.use(crearMiddlware());
+
 app.get("/koders", async (req, res) => {
   const koders = await Koder.find({});
 
   res.json(koders);
 });
+
+app.get(
+  "/",
+  (req, res, next) => {
+    console.log("EN middleware de endpoint");
+    res.statusCode = 205;
+
+    next();
+  },
+  async (req, res) => {
+    res.json({ hola: "mundo" });
+  }
+);
 
 // Ejecutamos server y conectamos BD
 mongoose
