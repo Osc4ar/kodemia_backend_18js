@@ -31,4 +31,13 @@ router.post("/", async (req, res) => {
   res.json(newKoder);
 });
 
+router.patch("/:id", async (req, res) => {
+  const id = req.params.id;
+  const koderInfo = req.body;
+
+  const updatedKoder = await Koder.updateKoder(id, koderInfo);
+
+  res.json(updatedKoder);
+});
+
 module.exports = router;

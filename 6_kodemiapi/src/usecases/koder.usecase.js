@@ -14,7 +14,20 @@ async function createKoder(koder) {
   return newKoder;
 }
 
+async function updateKoder(id, koder) {
+  const filter = {
+    _id: id,
+  };
+
+  await Koder.findOneAndUpdate(filter, koder);
+
+  const updatedKoder = Koder.findOne(filter);
+
+  return updatedKoder;
+}
+
 module.exports = {
   getKoders,
   createKoder,
+  updateKoder,
 };
