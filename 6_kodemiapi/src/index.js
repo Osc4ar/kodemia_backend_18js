@@ -19,7 +19,6 @@ const URL = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retry
 const app = express();
 
 app.use(express.json());
-
 app.use("/koders", koderRouter);
 
 app.get("/", async (req, res) => {

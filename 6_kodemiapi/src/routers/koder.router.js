@@ -1,5 +1,5 @@
 const express = require("express");
-const Koder = require("../models/koder.model");
+const Koder = require("../usecases/koder.usecase");
 
 const router = express.Router();
 
@@ -19,17 +19,13 @@ router.get("/", async (req, res) => {
     filtro.genero = genero; // {genero: genero}
   }
 
-  const koders = await Koder.find(filtro);
+  const koders = await Koder.getKoders(filtro);
 
   res.json(koders);
 });
 
 router.post("/", async (req, res) => {
-  const objetoKoder = req.body; // Objeto de JS
-
-  const newKoder = new Koder(objetoKoder); // Instancia de modelo Koder
-
-  await Koder.create(newKoder);
+  const newKoder = await Koder.createKoder(req.body);
 
   res.statusCode = 201;
   res.json(newKoder);
