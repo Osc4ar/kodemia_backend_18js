@@ -5,6 +5,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const koderRouter = require("./routers/koder.router");
+const userRouter = require("./routers/user.router");
 
 // Inicializamos constantes con la configuracion
 const PORT = process.env.PORT;
@@ -20,6 +21,7 @@ const app = express();
 
 app.use(express.json());
 app.use("/koders", koderRouter);
+app.use("/users", userRouter);
 
 app.get("/", async (req, res) => {
   res.json({ hola: "mundo" });
