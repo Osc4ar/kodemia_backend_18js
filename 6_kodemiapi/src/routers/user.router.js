@@ -1,10 +1,11 @@
 const { response } = require("express");
 const express = require("express");
 const User = require("../usecases/user.usecase");
+const auth = require("../middlewares/auth");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     const allUsers = await User.getAll();
 
@@ -37,12 +38,12 @@ router.post("/login", async (req, res) => {
   try {
     const loginInfo = req.body;
 
-    const id = await User.login(loginInfo);
+    const token = await User.login(loginInfo);
 
     res.json({
       success: true,
       data: {
-        id,
+        token,
       },
     });
   } catch (error) {

@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const { encrypt, compare } = require("../lib/encryptor");
+const { sign } = require("../lib/jwt");
 
 function getAll() {
   return User.find();
@@ -25,7 +26,9 @@ async function login({ email, password }) {
 
   if (!isCorrectPassword) throw new Error("Wrong password");
 
-  return userFound._id;
+  const token = sign({ id: userFound._id });
+
+  return token;
 }
 
 module.exports = {
