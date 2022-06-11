@@ -12,8 +12,8 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    response.statusCode = 500;
-    response.json({ error });
+    res.statusCode = 500;
+    res.json({ error });
   }
 });
 
@@ -28,8 +28,36 @@ router.post("/", async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    response.statusCode = 500;
-    response.json({ error });
+    res.statusCode = 500;
+    res.json({ error });
+  }
+});
+
+router.post("/login", async (req, res) => {
+  try {
+    const loginInfo = req.body;
+
+    const id = await User.login(loginInfo);
+
+    res.json({
+      success: true,
+      data: {
+        id,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+
+    if (
+      error.message === "User not found" ||
+      error.message === "Wrong password"
+    ) {
+      res.statusCode = 400;
+    } else {
+      res.statusCode = 500;
+    }
+
+    res.json({ error });
   }
 });
 
